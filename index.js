@@ -25,14 +25,14 @@ app.get('/notes', async (req, res) => {
 	res.json(q).end()
 })
 
-app.get('/note/:id', (req, res) => {
+app.get('/note/:id', async (req, res) => {
 	// res.json(devNotes.find(note => note.id === req.params.id)).end()
 	const conn = await getConnection()
 	const q = await conn.query('SELECT * FROM khlee_test WHERE id = ?', req.params.id)
 	res.json(q).end()
 })
 
-app.post('/note', (req, res) => {
+app.post('/note', async (req, res) => {
 	// devNotes.push({ value: req.body.value, id: id++, createDate: new Date() })
 	// res.status(200).end()
 	const conn = await getConnection()
