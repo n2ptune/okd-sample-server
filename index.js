@@ -1,5 +1,4 @@
-const express = require('express')
-const app = express()
+const express = require('express')const app = express()
 const cors = require('cors')
 const mysql = require('mysql2/promise')
 
@@ -21,15 +20,15 @@ app.use(express.json())
 
 app.get('/notes', async (req, res) => {
 	const conn = await getConnection()
-	const q = await conn.query('SELECT * FROM khlee_test')
-	res.json(q).end()
+	const [rows, fields] = await conn.execute('SELECT * FROM khlee_test')
+	res.json(rows).end()
 })
 
 app.get('/note/:id', async (req, res) => {
 	// res.json(devNotes.find(note => note.id === req.params.id)).end()
 	const conn = await getConnection()
-	const q = await conn.query('SELECT * FROM khlee_test WHERE id = ?', req.params.id)
-	res.json(q).end()
+	const [rows, fields] = await conn.execute('SELECT * FROM khlee_test WHERE id = ?', req.params.id)
+	res.json(rows).end()
 })
 
 app.post('/note', async (req, res) => {
@@ -37,8 +36,8 @@ app.post('/note', async (req, res) => {
 	// res.status(200).end()
 	const conn = await getConnection()
 	const rand = Math.floor(Math.random() * 100000000)
-	const q = await conn.query('INSERT INTO khlee_test (id, value) VALUES (?, ?)', [rand, req.body.value || ''])
-	res.json(q).end()
+	const [rows, fields] = await conn.execute('INSERT INTO khlee_test (id, value) VALUES (?, ?)', [rand, req.body.value || ''])
+	res.json(rows).end()
 })
 
 app.listen(3033, () => console.log('server start'))
