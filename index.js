@@ -2,7 +2,7 @@ const express = require('express')
 const app = express()
 const cors = require('cors')
 const mysql = require('mysql2/promise')
-const morgan = requrie('morgan')
+const morgan = require('morgan')
 
 function getConnection () {
 	return mysql.createConnection({
