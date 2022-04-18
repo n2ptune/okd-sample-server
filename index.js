@@ -2,6 +2,7 @@ const express = require('express')
 const app = express()
 const cors = require('cors')
 const mysql = require('mysql2/promise')
+const morgan = requrie('morgan')
 
 function getConnection () {
 	return mysql.createConnection({
@@ -18,6 +19,7 @@ let id = 0
 
 app.use(cors())
 app.use(express.json())
+app.use(morgan())
 
 app.get('/notes', async (req, res) => {
 	const conn = await getConnection()
