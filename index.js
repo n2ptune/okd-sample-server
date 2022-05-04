@@ -7,7 +7,7 @@ const morgan = require('morgan')
 function getConnection () {
 	return mysql.createConnection({
 		host: process.env.DB_HOST,
-		database: 'khlee_test',
+		database: process.env.DB_NAME,
 		port: 3306,
 		user: process.env.DB_USER,
 		password: process.env.DB_PASSWORD
@@ -23,14 +23,14 @@ app.use(morgan())
 
 app.get('/notes', async (req, res) => {
 	const conn = await getConnection()
-	const [rows, fields] = await conn.execute('SELECT * FROM khlee_test')
+	const [rows, fields] = await conn.execute('SELECT * FROM cmp_table')
 	res.json(rows).end()
 })
 
 app.get('/note/:id', async (req, res) => {
 	// res.json(devNotes.find(note => note.id === req.params.id)).end()
 	const conn = await getConnection()
-	const [rows, fields] = await conn.execute('SELECT * FROM khlee_test WHERE id = ?', req.params.id)
+	const [rows, fields] = await conn.execute('SELECT * FROM cmp_table WHERE id = ?', req.params.id)
 	res.json(rows).end()
 })
 
@@ -39,7 +39,7 @@ app.post('/note', async (req, res) => {
 	// res.status(200).end()
 	const conn = await getConnection()
 	const rand = Math.floor(Math.random() * 100000000)
-	const [rows, fields] = await conn.execute('INSERT INTO khlee_test (id, value) VALUES (?, ?)', [rand, req.body.value || ''])
+	const [rows, fields] = await conn.execute('INSERT INTO cmp_table (id, value) VALUES (?, ?)', [rand, req.body.value || ''])
 	res.json(rows).end()
 })
 
